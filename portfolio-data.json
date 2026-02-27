@@ -1,0 +1,13 @@
+{
+  "portfolio": [
+    {
+      "id": "mm4pgba9v2q",
+      "ticker": "LUCK",
+      "shares": 100,
+      "avgBuy": 450,
+      "currentPrice": "412",
+      "notes": ""
+    }
+  ],
+  "dividends": []
+}
