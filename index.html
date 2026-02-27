@@ -86,10 +86,27 @@
   .sync-ok{color:var(--green);}
   .sync-err{color:var(--red);}
   .sync-ing{color:var(--muted);}
+  /* ── MOBILE CARDS ── */
   @media(max-width:768px){
-    .main{padding:1rem;} .header{padding:.9rem 1rem;}
-    .summary{grid-template-columns:1fr 1fr;} th,td{padding:.6rem .5rem;}
+    .main{padding:.75rem;} .header{padding:.75rem 1rem;}
+    .logo-sub{display:none;}
+    .summary{grid-template-columns:1fr 1fr;}
+    /* Hide desktop table, show mobile cards */
+    .desktop-table{display:none !important;}
+    .mobile-cards{display:block !important;}
+    .m-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+      padding:1rem;margin-bottom:.75rem;}
+    .m-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;}
+    .m-card-ticker{font-family:var(--sans);font-weight:700;font-size:1rem;color:var(--accent);}
+    .m-card-actions{display:flex;gap:.4rem;}
+    .m-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .75rem;}
+    .m-card-field{}
+    .m-card-label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.15rem;}
+    .m-card-value{font-family:var(--mono);font-size:.82rem;}
+    .m-card-notes{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--border);}
   }
+  /* Hide mobile cards on desktop */
+  .mobile-cards{display:none;}
 </style>
 </head>
 <body>
@@ -144,7 +161,7 @@
       <div class="section-title">Your <span>Holdings</span></div>
       <button class="btn btn-ghost" onclick="openUpdatePrices()">Update Prices</button>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap desktop-table">
       <table>
         <thead>
           <tr>
@@ -155,8 +172,9 @@
         </thead>
         <tbody id="holdings-body"></tbody>
       </table>
-      <div id="holdings-empty" class="empty-state"><div class="big">📈</div>Add your first stock to get started</div>
     </div>
+    <div id="holdings-empty" class="empty-state"><div class="big">📈</div>Add your first stock to get started</div>
+    <div class="mobile-cards" id="holdings-cards"></div>
     <p style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">True P&L = price gain + all dividends received</p>
   </div>
 
@@ -164,15 +182,16 @@
     <div class="section-header">
       <div class="section-title">Dividend <span>History</span></div>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap desktop-table">
       <table>
         <thead>
           <tr><th>Stock</th><th>Date</th><th class="r">Per Share (PKR)</th><th class="r">Shares</th><th class="r">Total Received</th><th>Notes</th><th></th></tr>
         </thead>
         <tbody id="div-body"></tbody>
       </table>
-      <div id="div-empty" class="empty-state"><div class="big">💰</div>No dividends recorded yet</div>
     </div>
+    <div id="div-empty" class="empty-state"><div class="big">💰</div>No dividends recorded yet</div>
+    <div class="mobile-cards" id="div-cards"></div>
   </div>
 </div>
 
@@ -465,8 +484,9 @@ function renderSummary() {
 
 function renderHoldings() {
   const tbody = document.getElementById('holdings-body');
+  const cards = document.getElementById('holdings-cards');
   const empty = document.getElementById('holdings-empty');
-  tbody.innerHTML='';
+  tbody.innerHTML=''; cards.innerHTML='';
   if(!portfolio.length){ empty.style.display='block'; return; }
   empty.style.display='none';
   portfolio.forEach(s=>{
@@ -482,21 +502,23 @@ function renderHoldings() {
     const truePnl= cp?((cp-ab)*sh+totDiv):totDiv;
     const truePct= (truePnl/(ab*sh))*100;
     const pnlHtml = cp
-      ? `<span class="${pnl>=0?'green':'red'}">${pnl>=0?'+':''}${fmt(pnl,0)}<br><small>${pnlPct>=0?'+':''}${fmt(pnlPct)}%</small></span>`
+      ? `<span class="${pnl>=0?'green':'red'}">${pnl>=0?'+':''}${fmt(pnl,0)} (${pnlPct>=0?'+':''}${fmt(pnlPct)}%)</span>`
       : `<span class="muted">—</span>`;
-    const truePnlHtml = `<span class="${truePnl>=0?'green':'red'}">${truePnl>=0?'+':''}${fmt(truePnl,0)}<br><small>${truePct>=0?'+':''}${fmt(truePct)}%</small></span>`;
+    const truePnlHtml = `<span class="${truePnl>=0?'green':'red'}">${truePnl>=0?'+':''}${fmt(truePnl,0)} (${truePct>=0?'+':''}${fmt(truePct)}%)</span>`;
     const adjHtml = hasDiv
-      ? `<span class="green">${fmt(adj)}</span><span class="adj-badge">ADJ</span><br><span class="strike">${fmt(ab)}</span>`
+      ? `<span class="green">${fmt(adj)}</span><span class="adj-badge">ADJ</span>`
       : `<span>${fmt(ab)}</span>`;
+
+    // Desktop row
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><span class="ticker">${s.ticker}</span>${s.notes?`<br><span class="muted" style="font-size:.66rem">${s.notes}</span>`:''}</td>
       <td class="r">${fmt(sh,0)}</td>
       <td class="r">${fmt(ab)}</td>
-      <td class="r">${adjHtml}</td>
+      <td class="r">${hasDiv?`<span class="green">${fmt(adj)}</span><span class="adj-badge">ADJ</span><br><span class="strike">${fmt(ab)}</span>`:fmt(ab)}</td>
       <td class="r">${hasDiv?`<span style="color:var(--accent2)">${fmt(divPS)}</span>`:'<span class="muted">—</span>'}</td>
       <td class="r">${cp?fmt(cp):'<span class="muted">—</span>'}</td>
-      <td class="r">${pnlHtml}</td>
+      <td class="r">${cp?`<span class="${pnl>=0?'green':'red'}">${pnl>=0?'+':''}${fmt(pnl,0)}<br><small>${pnlPct>=0?'+':''}${fmt(pnlPct)}%</small></span>`:'<span class="muted">—</span>'}</td>
       <td class="r">${truePnlHtml}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-warn" onclick="openAddDiv('${s.ticker}')">+Div</button>
@@ -504,17 +526,46 @@ function renderHoldings() {
         <button class="btn btn-danger" onclick="deleteStock('${s.id}')">✕</button>
       </td>`;
     tbody.appendChild(tr);
+
+    // Mobile card
+    const card = document.createElement('div');
+    card.className = 'm-card';
+    card.innerHTML = `
+      <div class="m-card-header">
+        <div>
+          <span class="m-card-ticker">${s.ticker}</span>
+          ${hasDiv?`<span class="adj-badge">ADJ</span>`:''}
+          ${s.notes?`<div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.2rem">${s.notes}</div>`:''}
+        </div>
+        <div class="m-card-actions">
+          <button class="btn btn-warn" onclick="openAddDiv('${s.ticker}')">+Div</button>
+          <button class="btn btn-ghost" style="padding:.28rem .55rem;font-size:.72rem" onclick="openEditStock('${s.id}')">Edit</button>
+          <button class="btn btn-danger" onclick="deleteStock('${s.id}')">✕</button>
+        </div>
+      </div>
+      <div class="m-card-grid">
+        <div class="m-card-field"><div class="m-card-label">Shares</div><div class="m-card-value">${fmt(sh,0)}</div></div>
+        <div class="m-card-field"><div class="m-card-label">Avg Buy</div><div class="m-card-value">${fmt(ab)}</div></div>
+        <div class="m-card-field"><div class="m-card-label">Adj. Cost</div><div class="m-card-value">${adjHtml}</div></div>
+        <div class="m-card-field"><div class="m-card-label">Current Price</div><div class="m-card-value">${cp?fmt(cp):'<span class="muted">—</span>'}</div></div>
+        <div class="m-card-field"><div class="m-card-label">P&L</div><div class="m-card-value">${pnlHtml}</div></div>
+        <div class="m-card-field"><div class="m-card-label">True P&L</div><div class="m-card-value">${truePnlHtml}</div></div>
+        ${hasDiv?`<div class="m-card-field"><div class="m-card-label">Div/Share</div><div class="m-card-value" style="color:var(--accent2)">${fmt(divPS)}</div></div>`:''}
+      </div>`;
+    cards.appendChild(card);
   });
 }
 
 function renderDividends() {
   const tbody=document.getElementById('div-body');
+  const cards=document.getElementById('div-cards');
   const empty=document.getElementById('div-empty');
-  tbody.innerHTML='';
+  tbody.innerHTML=''; if(cards) cards.innerHTML='';
   if(!dividends.length){ empty.style.display='block'; return; }
   empty.style.display='none';
   [...dividends].sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(d=>{
     const total=parseFloat(d.perShare)*parseFloat(d.shares);
+    // Desktop row
     const tr=document.createElement('tr');
     tr.innerHTML=`
       <td><span class="ticker">${d.ticker}</span></td>
@@ -525,6 +576,27 @@ function renderDividends() {
       <td class="muted" style="font-size:.72rem">${d.notes||'—'}</td>
       <td><button class="btn btn-warn" onclick="editDiv('${d.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteDiv('${d.id}')">✕</button></td>`;
     tbody.appendChild(tr);
+    // Mobile card
+    const card=document.createElement('div');
+    card.className='m-card';
+    card.innerHTML=`
+      <div class="m-card-header">
+        <div>
+          <span class="m-card-ticker">${d.ticker}</span>
+          <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:.2rem">${d.date||'—'}</div>
+        </div>
+        <div class="m-card-actions">
+          <button class="btn btn-warn" onclick="editDiv('${d.id}')">Edit</button>
+          <button class="btn btn-danger" onclick="deleteDiv('${d.id}')">✕</button>
+        </div>
+      </div>
+      <div class="m-card-grid">
+        <div class="m-card-field"><div class="m-card-label">Per Share</div><div class="m-card-value" style="color:var(--accent2)">${fmt(d.perShare)} PKR</div></div>
+        <div class="m-card-field"><div class="m-card-label">Shares</div><div class="m-card-value">${fmt(d.shares,0)}</div></div>
+        <div class="m-card-field"><div class="m-card-label">Total Received</div><div class="m-card-value green">${fmt(total)} PKR</div></div>
+        ${d.notes?`<div class="m-card-field"><div class="m-card-label">Notes</div><div class="m-card-value muted" style="font-size:.72rem">${d.notes}</div></div>`:''}
+      </div>`;
+    cards.appendChild(card);
   });
 }
 
