@@ -9,5 +9,14 @@
       "notes": ""
     }
   ],
-  "dividends": []
+  "dividends": [
+    {
+      "id": "mm4pq3tr9yy",
+      "ticker": "LUCK",
+      "perShare": 4,
+      "date": "2026-02-10",
+      "shares": 100,
+      "notes": ""
+    }
+  ]
 }
