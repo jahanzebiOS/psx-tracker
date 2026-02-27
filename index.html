@@ -7,290 +7,98 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0e17;
-    --surface: #111827;
-    --surface2: #1a2333;
-    --border: #1f2d42;
-    --accent: #00d4aa;
-    --accent2: #f59e0b;
-    --red: #ef4444;
-    --green: #10b981;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'Syne', sans-serif;
+    --bg:#0a0e17;--surface:#111827;--surface2:#1a2333;--border:#1f2d42;
+    --accent:#00d4aa;--accent2:#f59e0b;--red:#ef4444;--green:#10b981;
+    --text:#e2e8f0;--muted:#64748b;
+    --mono:'IBM Plex Mono',monospace;--sans:'Syne',sans-serif;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    background-image: radial-gradient(ellipse at 20% 0%, #00d4aa08 0%, transparent 50%),
-                      radial-gradient(ellipse at 80% 100%, #f59e0b06 0%, transparent 50%);
-  }
-
-  .header {
-    padding: 2rem 2.5rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    background: rgba(10,14,23,0.92);
-    backdrop-filter: blur(12px);
-    z-index: 100;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: var(--accent);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 14px; color: var(--bg);
-  }
-  .logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
-  .logo-sub { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); }
-
-  .main { max-width: 1200px; margin: 0 auto; padding: 2rem 2.5rem; }
-
-  /* Summary Cards */
-  .summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2.5rem;
-  }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    opacity: 0.4;
-  }
-  .card.highlight::before { opacity: 1; }
-  .card-label { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
-  .card-value { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; }
-  .card-value.green { color: var(--green); }
-  .card-value.red { color: var(--red); }
-  .card-value.accent { color: var(--accent); }
-  .card-sub { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.3rem; }
-
-  /* Section header */
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  .section-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; }
-  .section-title span { color: var(--accent); }
-
-  /* Buttons */
-  .btn {
-    font-family: var(--sans);
-    font-weight: 600;
-    font-size: 0.8rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 0.02em;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-  }
-  .btn-primary:hover { background: #00f0c0; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-danger {
-    background: transparent;
-    color: var(--red);
-    border: 1px solid transparent;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
-  }
-  .btn-danger:hover { border-color: var(--red); }
-  .btn-warn {
-    background: transparent;
-    color: var(--accent2);
-    border: 1px solid transparent;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
-  }
-  .btn-warn:hover { border-color: var(--accent2); }
-
-  /* Table */
-  .table-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    margin-bottom: 2rem;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: var(--surface2); }
-  th {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    padding: 0.85rem 1rem;
-    text-align: left;
-    white-space: nowrap;
-  }
-  th.right { text-align: right; }
-  td {
-    padding: 0.9rem 1rem;
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    border-top: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  td.right { text-align: right; }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-  .ticker { font-weight: 600; color: var(--accent); font-size: 0.9rem; font-family: var(--sans); }
-  .green { color: var(--green); }
-  .red { color: var(--red); }
-  .accent { color: var(--accent); }
-  .muted { color: var(--muted); }
-  .strike { text-decoration: line-through; color: var(--muted); font-size: 0.72rem; }
-  .adjusted-badge {
-    display: inline-block;
-    background: rgba(0,212,170,0.1);
-    border: 1px solid rgba(0,212,170,0.25);
-    color: var(--accent);
-    font-size: 0.62rem;
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    margin-left: 0.3rem;
-    vertical-align: middle;
-  }
-
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(4px);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-    width: 420px;
-    max-width: 95vw;
-    animation: slideUp 0.2s ease;
-  }
-  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-  .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; }
-  .modal-title span { color: var(--accent); }
-  .form-group { margin-bottom: 1rem; }
-  label { display: block; font-family: var(--mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.4rem; }
-  input, select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.65rem 0.9rem;
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  input:focus, select:focus { border-color: var(--accent); }
-  input::placeholder { color: var(--muted); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-  .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; justify-content: flex-end; }
-  .hint { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); margin-top: 0.3rem; }
-
-  /* Dividend history */
-  .div-list { margin-top: 0.5rem; }
-  .div-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0.75rem;
-    background: var(--surface2);
-    border-radius: 6px;
-    margin-bottom: 0.4rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-  }
-  .div-item .amount { color: var(--accent2); }
-
-  .empty-state {
-    text-align: center;
-    padding: 3rem;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.8rem;
-  }
-  .empty-state .big { font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.3; }
-
-  /* Tabs */
-  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-  .tab {
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .tab.active {
-    background: var(--surface2);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .pane { display: none; }
-  .pane.active { display: block; }
-
-  .current-price-note {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    color: var(--muted);
-    margin-top: 0.25rem;
-  }
-
-  @media (max-width: 768px) {
-    .main { padding: 1rem; }
-    .header { padding: 1rem; }
-    .summary { grid-template-columns: 1fr 1fr; }
-    table { font-size: 0.75rem; }
-    th, td { padding: 0.65rem 0.6rem; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;
+    background-image:radial-gradient(ellipse at 20% 0%,#00d4aa08 0%,transparent 50%),
+                     radial-gradient(ellipse at 80% 100%,#f59e0b06 0%,transparent 50%);}
+  .header{padding:1.25rem 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;
+    justify-content:space-between;position:sticky;top:0;background:rgba(10,14,23,0.95);
+    backdrop-filter:blur(12px);z-index:100;}
+  .logo{display:flex;align-items:center;gap:.75rem;}
+  .logo-mark{width:34px;height:34px;background:var(--accent);border-radius:8px;display:flex;
+    align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--bg);}
+  .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;}
+  .logo-sub{font-family:var(--mono);font-size:.6rem;color:var(--muted);}
+  .main{max-width:1200px;margin:0 auto;padding:1.5rem 2rem;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin-bottom:2rem;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.3rem;position:relative;overflow:hidden;}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);opacity:.3;}
+  .card.hl::before{opacity:1;}
+  .card-label{font-family:var(--mono);font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;}
+  .card-value{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;}
+  .card-sub{font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:.2rem;}
+  .btn{font-family:var(--sans);font-weight:600;font-size:.78rem;padding:.45rem .9rem;border-radius:8px;border:none;cursor:pointer;transition:all .15s;letter-spacing:.02em;}
+  .btn-primary{background:var(--accent);color:var(--bg);}
+  .btn-primary:hover{background:#00f0c0;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+  .btn-accent{background:transparent;color:var(--accent);border:1px solid var(--accent);}
+  .btn-accent:hover{background:rgba(0,212,170,.1);}
+  .btn-danger{background:transparent;color:var(--red);border:1px solid transparent;padding:.28rem .55rem;font-size:.72rem;}
+  .btn-danger:hover{border-color:var(--red);}
+  .btn-warn{background:transparent;color:var(--accent2);border:1px solid transparent;padding:.28rem .55rem;font-size:.72rem;}
+  .btn-warn:hover{border-color:var(--accent2);}
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+  .section-title{font-size:.95rem;font-weight:700;}
+  .section-title span{color:var(--accent);}
+  .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+  table{width:100%;border-collapse:collapse;}
+  thead tr{background:var(--surface2);}
+  th{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:.8rem .9rem;text-align:left;white-space:nowrap;}
+  th.r{text-align:right;}
+  td{padding:.85rem .9rem;font-family:var(--mono);font-size:.8rem;border-top:1px solid var(--border);vertical-align:middle;}
+  td.r{text-align:right;}
+  tr:hover td{background:rgba(255,255,255,.015);}
+  .ticker{font-weight:600;color:var(--accent);font-size:.88rem;font-family:var(--sans);}
+  .green{color:var(--green);} .red{color:var(--red);} .muted{color:var(--muted);}
+  .strike{text-decoration:line-through;color:var(--muted);font-size:.7rem;}
+  .adj-badge{display:inline-block;background:rgba(0,212,170,.1);border:1px solid rgba(0,212,170,.25);
+    color:var(--accent);font-size:.6rem;padding:.08rem .35rem;border-radius:4px;margin-left:.3rem;vertical-align:middle;}
+  .empty-state{text-align:center;padding:2.5rem;color:var(--muted);font-family:var(--mono);font-size:.78rem;}
+  .empty-state .big{font-size:2rem;margin-bottom:.4rem;opacity:.3;}
+  .tabs{display:flex;gap:.4rem;margin-bottom:1.25rem;}
+  .tab{font-family:var(--sans);font-size:.78rem;font-weight:600;padding:.45rem .9rem;border-radius:8px;
+    border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .tab.active{background:var(--surface2);border-color:var(--accent);color:var(--accent);}
+  .pane{display:none;} .pane.active{display:block;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+    z-index:200;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.75rem;
+    width:420px;max-width:95vw;animation:slideUp .2s ease;}
+  .modal.wide{width:540px;}
+  @keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .modal-title{font-size:1rem;font-weight:700;margin-bottom:1.25rem;}
+  .modal-title span{color:var(--accent);}
+  .form-group{margin-bottom:.9rem;}
+  label{display:block;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem;}
+  input,select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;
+    padding:.6rem .85rem;color:var(--text);font-family:var(--mono);font-size:.82rem;outline:none;transition:border-color .15s;}
+  input:focus,select:focus{border-color:var(--accent);}
+  input::placeholder{color:var(--muted);}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+  .modal-actions{display:flex;gap:.6rem;margin-top:1.25rem;justify-content:flex-end;}
+  .hint{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:.25rem;line-height:1.5;}
+  .status-line{font-family:var(--mono);font-size:.72rem;min-height:1.1rem;margin-bottom:.5rem;}
+  .setup-banner{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:10px;
+    padding:.85rem 1.1rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+  .setup-banner p{font-family:var(--mono);font-size:.72rem;color:var(--accent2);line-height:1.5;}
+  .steps{margin-bottom:.5rem;}
+  .step{display:flex;gap:.75rem;margin-bottom:1rem;align-items:flex-start;}
+  .step-num{min-width:24px;height:24px;background:var(--accent);color:var(--bg);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;margin-top:.1rem;}
+  .step-text{font-family:var(--mono);font-size:.71rem;color:var(--text);line-height:1.65;}
+  .step-text a{color:var(--accent);text-decoration:none;}
+  .step-text a:hover{text-decoration:underline;}
+  .step-text code{background:var(--surface2);padding:.1rem .35rem;border-radius:4px;font-size:.68rem;color:var(--accent2);}
+  @media(max-width:768px){
+    .main{padding:1rem;} .header{padding:.9rem 1rem;}
+    .summary{grid-template-columns:1fr 1fr;} th,td{padding:.6rem .5rem;}
   }
 </style>
 </head>
@@ -304,18 +112,17 @@
       <div class="logo-sub">DIVIDEND-ADJUSTED PORTFOLIO</div>
     </div>
   </div>
-  <div style="display:flex;gap:0.5rem;">
+  <div style="display:flex;gap:.5rem;align-items:center;">
     <button class="btn btn-ghost" onclick="exportData()">Export</button>
     <button class="btn btn-primary" onclick="openAddStock()">+ Add Stock</button>
   </div>
 </div>
 
 <div class="main">
-  <!-- Summary -->
-  <div class="summary" id="summary">
-    <div class="card highlight">
+  <div class="summary">
+    <div class="card hl">
       <div class="card-label">Total Invested</div>
-      <div class="card-value accent" id="s-invested">0</div>
+      <div class="card-value" style="color:var(--accent)" id="s-invested">0</div>
       <div class="card-sub">PKR</div>
     </div>
     <div class="card">
@@ -329,19 +136,17 @@
       <div class="card-sub">PKR received</div>
     </div>
     <div class="card">
-      <div class="card-label">P&L (incl. dividends)</div>
+      <div class="card-label">True P&L (incl. dividends)</div>
       <div class="card-value" id="s-pnl">0</div>
       <div class="card-sub" id="s-pnl-pct">0%</div>
     </div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('holdings')">Holdings</button>
-    <button class="tab" onclick="switchTab('dividends')">Dividend Log</button>
+    <button class="tab active" onclick="switchTab('holdings',this)">Holdings</button>
+    <button class="tab" onclick="switchTab('dividends',this)">Dividend Log</button>
   </div>
 
-  <!-- Holdings Pane -->
   <div class="pane active" id="pane-holdings">
     <div class="section-header">
       <div class="section-title">Your <span>Holdings</span></div>
@@ -351,29 +156,18 @@
       <table>
         <thead>
           <tr>
-            <th>Stock</th>
-            <th class="right">Shares</th>
-            <th class="right">Avg Buy</th>
-            <th class="right">Adj. Cost Basis</th>
-            <th class="right">Dividends/Share</th>
-            <th class="right">Current Price</th>
-            <th class="right">P&L</th>
-            <th class="right">True P&L</th>
-            <th></th>
+            <th>Stock</th><th class="r">Shares</th><th class="r">Avg Buy</th>
+            <th class="r">Adj. Cost Basis</th><th class="r">Div/Share</th>
+            <th class="r">Current Price</th><th class="r">P&L</th><th class="r">True P&L</th><th></th>
           </tr>
         </thead>
-        <tbody id="holdings-body">
-        </tbody>
+        <tbody id="holdings-body"></tbody>
       </table>
-      <div id="holdings-empty" class="empty-state">
-        <div class="big">📈</div>
-        Add your first stock to get started
-      </div>
+      <div id="holdings-empty" class="empty-state"><div class="big">📈</div>Add your first stock to get started</div>
     </div>
-    <p class="current-price-note">* P&L uses current price if set. True P&L includes dividends received. Click "Update Prices" to add market prices.</p>
+    <p style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">True P&L = price gain + all dividends received</p>
   </div>
 
-  <!-- Dividends Pane -->
   <div class="pane" id="pane-dividends">
     <div class="section-header">
       <div class="section-title">Dividend <span>History</span></div>
@@ -381,22 +175,23 @@
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Stock</th>
-            <th>Date</th>
-            <th class="right">Per Share (PKR)</th>
-            <th class="right">Shares Held</th>
-            <th class="right">Total Received</th>
-            <th>Notes</th>
-            <th></th>
-          </tr>
+          <tr><th>Stock</th><th>Date</th><th class="r">Per Share (PKR)</th><th class="r">Shares</th><th class="r">Total Received</th><th>Notes</th><th></th></tr>
         </thead>
         <tbody id="div-body"></tbody>
       </table>
-      <div id="div-empty" class="empty-state">
-        <div class="big">💰</div>
-        No dividends recorded yet
-      </div>
+      <div id="div-empty" class="empty-state"><div class="big">💰</div>No dividends recorded yet</div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal" style="width:320px">
+    <div class="modal-title" id="confirm-title">Are you sure?</div>
+    <p id="confirm-msg" style="color:var(--muted);font-family:var(--mono);font-size:.78rem;margin-bottom:1.25rem;line-height:1.6"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn btn-primary" id="confirm-btn" style="background:var(--red)">Delete</button>
     </div>
   </div>
 </div>
@@ -410,23 +205,14 @@
       <input type="text" id="f-ticker" placeholder="e.g. ENGRO" style="text-transform:uppercase">
     </div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Number of Shares</label>
-        <input type="number" id="f-shares" placeholder="500" min="0">
-      </div>
-      <div class="form-group">
-        <label>Avg Buy Price (PKR)</label>
-        <input type="number" id="f-avgbuy" placeholder="407.00" step="0.01">
-      </div>
+      <div class="form-group"><label>Number of Shares</label><input type="number" id="f-shares" placeholder="500"></div>
+      <div class="form-group"><label>Avg Buy Price (PKR)</label><input type="number" id="f-avgbuy" placeholder="407.00" step="0.01"></div>
     </div>
     <div class="form-group">
-      <label>Current Market Price (PKR) <span style="color:var(--muted);font-size:0.6rem;">optional</span></label>
-      <input type="number" id="f-current" placeholder="Leave blank if unknown" step="0.01">
+      <label>Current Price (PKR) <span style="color:var(--muted);font-size:.6rem">optional</span></label>
+      <input type="number" id="f-current" placeholder="Leave blank" step="0.01">
     </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <input type="text" id="f-notes" placeholder="Optional notes">
-    </div>
+    <div class="form-group"><label>Notes</label><input type="text" id="f-notes" placeholder="Optional notes"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-stock')">Cancel</button>
       <button class="btn btn-primary" onclick="saveStock()">Save Stock</button>
@@ -438,29 +224,17 @@
 <div class="modal-overlay" id="modal-div">
   <div class="modal">
     <div class="modal-title">Add <span>Dividend</span></div>
-    <div class="form-group">
-      <label>Stock</label>
-      <select id="fd-ticker"></select>
-    </div>
+    <div class="form-group"><label>Stock</label><select id="fd-ticker"></select></div>
     <div class="form-row">
-      <div class="form-group">
-        <label>Dividend Per Share (PKR)</label>
-        <input type="number" id="fd-pershare" placeholder="7.00" step="0.01">
-      </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input type="date" id="fd-date">
-      </div>
+      <div class="form-group"><label>Dividend Per Share (PKR)</label><input type="number" id="fd-pershare" placeholder="7.00" step="0.01"></div>
+      <div class="form-group"><label>Date</label><input type="date" id="fd-date"></div>
     </div>
     <div class="form-group">
       <label>Shares Held at That Time</label>
-      <input type="number" id="fd-shares" placeholder="Auto-filled from holding">
-      <div class="hint">Leave as-is if you held the same shares as today</div>
+      <input type="number" id="fd-shares">
+      <div class="hint">Leave as-is if same as current holding</div>
     </div>
-    <div class="form-group">
-      <label>Notes</label>
-      <input type="text" id="fd-notes" placeholder="e.g. Interim dividend FY24">
-    </div>
+    <div class="form-group"><label>Notes</label><input type="text" id="fd-notes" placeholder="e.g. Interim dividend FY24"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-div')">Cancel</button>
       <button class="btn btn-primary" onclick="saveDividend()">Save Dividend</button>
@@ -468,10 +242,29 @@
   </div>
 </div>
 
-<!-- Update Prices Modal -->
+<!-- Edit Dividend Modal -->
+<div class="modal-overlay" id="modal-div-edit">
+  <div class="modal">
+    <div class="modal-title">Edit <span>Dividend</span></div>
+    <input type="hidden" id="fde-id">
+    <div class="form-group"><label>Stock</label><input type="text" id="fde-ticker" disabled style="opacity:.5"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Per Share (PKR)</label><input type="number" id="fde-pershare" step="0.01"></div>
+      <div class="form-group"><label>Date</label><input type="date" id="fde-date"></div>
+    </div>
+    <div class="form-group"><label>Shares Held</label><input type="number" id="fde-shares"></div>
+    <div class="form-group"><label>Notes</label><input type="text" id="fde-notes"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-div-edit')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEditDividend()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Manual Price Update Modal -->
 <div class="modal-overlay" id="modal-prices">
   <div class="modal">
-    <div class="modal-title">Update <span>Market Prices</span></div>
+    <div class="modal-title">Manual <span>Price Update</span></div>
     <div id="price-fields"></div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-prices')">Cancel</button>
@@ -481,115 +274,92 @@
 </div>
 
 <script>
-// --- DATA ---
+// ===================== DATA =====================
+let config    = JSON.parse(localStorage.getItem('psx_config')    || '{}');
 let portfolio = JSON.parse(localStorage.getItem('psx_portfolio') || '[]');
 let dividends = JSON.parse(localStorage.getItem('psx_dividends') || '[]');
 let editingId = null;
 
 function save() {
+  localStorage.setItem('psx_config',    JSON.stringify(config));
   localStorage.setItem('psx_portfolio', JSON.stringify(portfolio));
   localStorage.setItem('psx_dividends', JSON.stringify(dividends));
 }
+function uid() { return Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
 
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
-
-// --- COMPUTED ---
-function getDividendsPerShare(ticker) {
-  return dividends
-    .filter(d => d.ticker === ticker)
-    .reduce((sum, d) => sum + parseFloat(d.perShare), 0);
+// ===================== COMPUTED =====================
+function getDivPerShare(ticker) {
+  return dividends.filter(d=>d.ticker===ticker).reduce((s,d)=>s+parseFloat(d.perShare),0);
+}
+function getAdjCost(stock) {
+  return Math.max(0, parseFloat(stock.avgBuy) - getDivPerShare(stock.ticker));
+}
+function getTotalDivReceived(ticker) {
+  return dividends.filter(d=>d.ticker===ticker).reduce((s,d)=>s+(parseFloat(d.perShare)*parseFloat(d.shares)),0);
 }
 
-function getAdjustedCost(stock) {
-  const divPerShare = getDividendsPerShare(stock.ticker);
-  return Math.max(0, parseFloat(stock.avgBuy) - divPerShare);
-}
-
-function getTotalDividendReceived(ticker) {
-  return dividends
-    .filter(d => d.ticker === ticker)
-    .reduce((sum, d) => sum + (parseFloat(d.perShare) * parseFloat(d.shares)), 0);
-}
-
-// --- RENDER ---
-function render() {
-  renderSummary();
-  renderHoldings();
-  renderDividends();
-}
-
-function fmt(n, dec=2) {
-  return parseFloat(n).toLocaleString('en-PK', {minimumFractionDigits: dec, maximumFractionDigits: dec});
-}
+// ===================== RENDER =====================
+function render() { renderSummary(); renderHoldings(); renderDividends(); }
+function fmt(n,d=2){ return parseFloat(n).toLocaleString('en-PK',{minimumFractionDigits:d,maximumFractionDigits:d}); }
 
 function renderSummary() {
-  let totalInvested = 0, totalValue = 0, totalDivReceived = 0;
-  portfolio.forEach(s => {
-    const invested = s.shares * s.avgBuy;
-    totalInvested += invested;
-    const price = s.currentPrice ? parseFloat(s.currentPrice) : parseFloat(s.avgBuy);
-    totalValue += s.shares * price;
-    totalDivReceived += getTotalDividendReceived(s.ticker);
+  let inv=0, val=0, divRec=0;
+  portfolio.forEach(s=>{
+    inv += s.shares * s.avgBuy;
+    val += s.shares * (s.currentPrice || s.avgBuy);
+    divRec += getTotalDivReceived(s.ticker);
   });
-  const pnl = (totalValue - totalInvested) + totalDivReceived;
-  const pnlPct = totalInvested > 0 ? (pnl / totalInvested * 100) : 0;
-
-  document.getElementById('s-invested').textContent = fmt(totalInvested, 0);
-  document.getElementById('s-value').textContent = fmt(totalValue, 0);
-  document.getElementById('s-div').textContent = fmt(totalDivReceived, 0);
-  const pnlEl = document.getElementById('s-pnl');
-  pnlEl.textContent = (pnl >= 0 ? '+' : '') + fmt(pnl, 0);
-  pnlEl.className = 'card-value ' + (pnl >= 0 ? 'green' : 'red');
-  document.getElementById('s-pnl-pct').textContent = (pnlPct >= 0 ? '+' : '') + fmt(pnlPct) + '%';
+  const pnl = (val - inv) + divRec;
+  const pct = inv > 0 ? (pnl/inv*100) : 0;
+  document.getElementById('s-invested').textContent = fmt(inv,0);
+  document.getElementById('s-value').textContent    = fmt(val,0);
+  document.getElementById('s-div').textContent      = fmt(divRec,0);
+  const el = document.getElementById('s-pnl');
+  el.textContent = (pnl>=0?'+':'')+fmt(pnl,0);
+  el.className = 'card-value '+(pnl>=0?'green':'red');
+  document.getElementById('s-pnl-pct').textContent = (pct>=0?'+':'')+fmt(pct)+'%';
 }
 
 function renderHoldings() {
   const tbody = document.getElementById('holdings-body');
   const empty = document.getElementById('holdings-empty');
   tbody.innerHTML = '';
-  if (portfolio.length === 0) { empty.style.display = 'block'; return; }
+  if (!portfolio.length) { empty.style.display='block'; return; }
   empty.style.display = 'none';
-
   portfolio.forEach(s => {
-    const adjCost = getAdjustedCost(s);
-    const divPS = getDividendsPerShare(s.ticker);
+    const adj    = getAdjCost(s);
+    const divPS  = getDivPerShare(s.ticker);
     const hasDiv = divPS > 0;
-    const cp = s.currentPrice ? parseFloat(s.currentPrice) : null;
-    const shares = parseFloat(s.shares);
-    const avgBuy = parseFloat(s.avgBuy);
-
-    // P&L without dividends
-    const pnl = cp ? (cp - avgBuy) * shares : null;
-    const pnlPct = cp ? ((cp - avgBuy) / avgBuy * 100) : null;
-
-    // True P&L including dividends
-    const totalDivRec = getTotalDividendReceived(s.ticker);
-    const truePnl = cp ? ((cp - avgBuy) * shares + totalDivRec) : totalDivRec;
-    const truePnlPct = (truePnl / (avgBuy * shares)) * 100;
+    const cp     = s.currentPrice ? parseFloat(s.currentPrice) : null;
+    const sh     = parseFloat(s.shares);
+    const ab     = parseFloat(s.avgBuy);
+    const totDiv = getTotalDivReceived(s.ticker);
+    const pnl    = cp ? (cp-ab)*sh : null;
+    const pnlPct = cp ? ((cp-ab)/ab*100) : null;
+    const truePnl= cp ? ((cp-ab)*sh + totDiv) : totDiv;
+    const truePct= (truePnl/(ab*sh))*100;
 
     const pnlHtml = cp
-      ? `<span class="${pnl >= 0 ? 'green' : 'red'}">${pnl >= 0 ? '+' : ''}${fmt(pnl, 0)}<br><small>${pnlPct >= 0 ? '+' : ''}${fmt(pnlPct)}%</small></span>`
+      ? `<span class="${pnl>=0?'green':'red'}">${pnl>=0?'+':''}${fmt(pnl,0)}<br><small>${pnlPct>=0?'+':''}${fmt(pnlPct)}%</small></span>`
       : `<span class="muted">—</span>`;
-
-    const truePnlHtml = `<span class="${truePnl >= 0 ? 'green' : 'red'}">${truePnl >= 0 ? '+' : ''}${fmt(truePnl, 0)}<br><small>${truePnlPct >= 0 ? '+' : ''}${fmt(truePnlPct)}%</small></span>`;
-
+    const truePnlHtml = `<span class="${truePnl>=0?'green':'red'}">${truePnl>=0?'+':''}${fmt(truePnl,0)}<br><small>${truePct>=0?'+':''}${fmt(truePct)}%</small></span>`;
     const adjHtml = hasDiv
-      ? `<span class="green">${fmt(adjCost)}</span><span class="adjusted-badge">ADJ</span><br><span class="strike">${fmt(avgBuy)}</span>`
-      : `<span>${fmt(avgBuy)}</span>`;
+      ? `<span class="green">${fmt(adj)}</span><span class="adj-badge">ADJ</span><br><span class="strike">${fmt(ab)}</span>`
+      : `<span>${fmt(ab)}</span>`;
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><span class="ticker">${s.ticker}</span>${s.notes ? `<br><span class="muted" style="font-size:0.68rem">${s.notes}</span>` : ''}</td>
-      <td class="right">${fmt(shares, 0)}</td>
-      <td class="right">${fmt(avgBuy)}</td>
-      <td class="right">${adjHtml}</td>
-      <td class="right">${hasDiv ? `<span style="color:var(--accent2)">${fmt(divPS)}</span>` : '<span class="muted">—</span>'}</td>
-      <td class="right">${cp ? fmt(cp) : '<span class="muted">—</span>'}</td>
-      <td class="right">${pnlHtml}</td>
-      <td class="right">${truePnlHtml}</td>
+      <td><span class="ticker">${s.ticker}</span>${s.notes?`<br><span class="muted" style="font-size:.66rem">${s.notes}</span>`:''}</td>
+      <td class="r">${fmt(sh,0)}</td>
+      <td class="r">${fmt(ab)}</td>
+      <td class="r">${adjHtml}</td>
+      <td class="r">${hasDiv?`<span style="color:var(--accent2)">${fmt(divPS)}</span>`:'<span class="muted">—</span>'}</td>
+      <td class="r">${cp?fmt(cp):'<span class="muted">—</span>'}</td>
+      <td class="r">${pnlHtml}</td>
+      <td class="r">${truePnlHtml}</td>
       <td style="white-space:nowrap">
         <button class="btn btn-warn" onclick="openAddDiv('${s.ticker}')">+Div</button>
-        <button class="btn btn-ghost" style="padding:0.3rem 0.6rem;font-size:0.75rem" onclick="openEditStock('${s.id}')">Edit</button>
+        <button class="btn btn-ghost" style="padding:.28rem .55rem;font-size:.72rem" onclick="openEditStock('${s.id}')">Edit</button>
         <button class="btn btn-danger" onclick="deleteStock('${s.id}')">✕</button>
       </td>`;
     tbody.appendChild(tr);
@@ -600,154 +370,168 @@ function renderDividends() {
   const tbody = document.getElementById('div-body');
   const empty = document.getElementById('div-empty');
   tbody.innerHTML = '';
-  if (dividends.length === 0) { empty.style.display = 'block'; return; }
+  if (!dividends.length) { empty.style.display='block'; return; }
   empty.style.display = 'none';
-
-  const sorted = [...dividends].sort((a,b) => new Date(b.date) - new Date(a.date));
-  sorted.forEach(d => {
-    const total = parseFloat(d.perShare) * parseFloat(d.shares);
+  [...dividends].sort((a,b)=>new Date(b.date)-new Date(a.date)).forEach(d=>{
+    const total = parseFloat(d.perShare)*parseFloat(d.shares);
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><span class="ticker">${d.ticker}</span></td>
-      <td>${d.date || '—'}</td>
-      <td class="right" style="color:var(--accent2)">${fmt(d.perShare)}</td>
-      <td class="right">${fmt(d.shares, 0)}</td>
-      <td class="right green">${fmt(total)}</td>
-      <td class="muted" style="font-size:0.75rem">${d.notes || '—'}</td>
-      <td><button class="btn btn-danger" onclick="deleteDiv('${d.id}')">✕</button></td>`;
+      <td>${d.date||'—'}</td>
+      <td class="r" style="color:var(--accent2)">${fmt(d.perShare)}</td>
+      <td class="r">${fmt(d.shares,0)}</td>
+      <td class="r green">${fmt(total)}</td>
+      <td class="muted" style="font-size:.72rem">${d.notes||'—'}</td>
+      <td><button class="btn btn-warn" onclick="editDiv('${d.id}')">Edit</button> <button class="btn btn-danger" onclick="deleteDiv('${d.id}')">✕</button></td>`;
     tbody.appendChild(tr);
   });
 }
 
-// --- MODALS ---
+function renderBanner() {
+  document.getElementById('setup-banner').style.display = (!config.sheetId||!config.apiKey)?'flex':'none';
+}
+
+// ===================== STOCK MODALS =====================
 function openAddStock() {
   editingId = null;
   document.getElementById('modal-stock-title').innerHTML = 'Add <span>Stock</span>';
-  document.getElementById('f-ticker').value = '';
-  document.getElementById('f-shares').value = '';
-  document.getElementById('f-avgbuy').value = '';
-  document.getElementById('f-current').value = '';
-  document.getElementById('f-notes').value = '';
+  ['f-ticker','f-shares','f-avgbuy','f-current','f-notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-ticker').disabled = false;
   document.getElementById('modal-stock').classList.add('open');
 }
 
 function openEditStock(id) {
   editingId = id;
-  const s = portfolio.find(x => x.id === id);
-  if (!s) return;
+  const s = portfolio.find(x=>x.id===id); if(!s) return;
   document.getElementById('modal-stock-title').innerHTML = `Edit <span>${s.ticker}</span>`;
-  document.getElementById('f-ticker').value = s.ticker;
-  document.getElementById('f-ticker').disabled = true;
-  document.getElementById('f-shares').value = s.shares;
-  document.getElementById('f-avgbuy').value = s.avgBuy;
-  document.getElementById('f-current').value = s.currentPrice || '';
-  document.getElementById('f-notes').value = s.notes || '';
+  document.getElementById('f-ticker').value   = s.ticker;
+  document.getElementById('f-ticker').disabled= true;
+  document.getElementById('f-shares').value   = s.shares;
+  document.getElementById('f-avgbuy').value   = s.avgBuy;
+  document.getElementById('f-current').value  = s.currentPrice||'';
+  document.getElementById('f-notes').value    = s.notes||'';
   document.getElementById('modal-stock').classList.add('open');
 }
 
 function saveStock() {
-  const ticker = document.getElementById('f-ticker').value.trim().toUpperCase();
-  const shares = parseFloat(document.getElementById('f-shares').value);
-  const avgBuy = parseFloat(document.getElementById('f-avgbuy').value);
+  const ticker  = document.getElementById('f-ticker').value.trim().toUpperCase();
+  const shares  = parseFloat(document.getElementById('f-shares').value);
+  const avgBuy  = parseFloat(document.getElementById('f-avgbuy').value);
   const current = document.getElementById('f-current').value;
-  const notes = document.getElementById('f-notes').value.trim();
-
-  if (!ticker || !shares || !avgBuy) return alert('Please fill in ticker, shares, and avg buy price.');
-
+  const notes   = document.getElementById('f-notes').value.trim();
+  if (!ticker||!shares||!avgBuy) { alert('Please fill in ticker, shares, and avg buy price.'); return; }
   if (editingId) {
-    const idx = portfolio.findIndex(x => x.id === editingId);
-    portfolio[idx] = { ...portfolio[idx], shares, avgBuy, currentPrice: current || null, notes };
+    const idx = portfolio.findIndex(x=>x.id===editingId);
+    portfolio[idx] = {...portfolio[idx], shares, avgBuy, currentPrice:current||null, notes};
   } else {
-    if (portfolio.find(x => x.ticker === ticker)) return alert('Stock already exists. Edit it instead.');
-    portfolio.push({ id: uid(), ticker, shares, avgBuy, currentPrice: current || null, notes });
+    if (portfolio.find(x=>x.ticker===ticker)) { alert('Stock already exists. Edit it instead.'); return; }
+    portfolio.push({id:uid(), ticker, shares, avgBuy, currentPrice:current||null, notes});
   }
   save(); render(); closeModal('modal-stock');
 }
 
-function deleteStock(id) {
-  const s = portfolio.find(x => x.id === id);
-  if (!confirm(`Remove ${s?.ticker} from portfolio?`)) return;
-  portfolio = portfolio.filter(x => x.id !== id);
-  dividends = dividends.filter(d => d.ticker !== s?.ticker);
-  save(); render();
+// ===================== CONFIRM =====================
+function showConfirm(title, msg, cb) {
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent   = msg;
+  const btn = document.getElementById('confirm-btn');
+  btn.onclick = ()=>{ closeModal('modal-confirm'); cb(); };
+  document.getElementById('modal-confirm').classList.add('open');
 }
 
+function deleteStock(id) {
+  const s = portfolio.find(x=>x.id===id);
+  showConfirm('Delete Stock', `Remove ${s?.ticker} and all its dividend records from your portfolio?`, ()=>{
+    portfolio = portfolio.filter(x=>x.id!==id);
+    dividends = dividends.filter(d=>d.ticker!==s?.ticker);
+    save(); render();
+  });
+}
+
+// ===================== DIVIDEND MODALS =====================
 function openAddDiv(ticker) {
   const sel = document.getElementById('fd-ticker');
-  sel.innerHTML = portfolio.map(s => `<option value="${s.ticker}" ${s.ticker===ticker?'selected':''}>${s.ticker}</option>`).join('');
-  const stock = portfolio.find(s => s.ticker === ticker);
-  document.getElementById('fd-shares').value = stock ? stock.shares : '';
+  sel.innerHTML = portfolio.map(s=>`<option value="${s.ticker}" ${s.ticker===ticker?'selected':''}>${s.ticker}</option>`).join('');
+  const stock = portfolio.find(s=>s.ticker===ticker);
+  document.getElementById('fd-shares').value   = stock ? stock.shares : '';
   document.getElementById('fd-pershare').value = '';
-  document.getElementById('fd-date').value = new Date().toISOString().slice(0,10);
-  document.getElementById('fd-notes').value = '';
+  document.getElementById('fd-date').value     = new Date().toISOString().slice(0,10);
+  document.getElementById('fd-notes').value    = '';
   document.getElementById('modal-div').classList.add('open');
-  sel.onchange = () => {
-    const s = portfolio.find(x => x.ticker === sel.value);
-    if (s) document.getElementById('fd-shares').value = s.shares;
-  };
+  sel.onchange = ()=>{ const s=portfolio.find(x=>x.ticker===sel.value); if(s) document.getElementById('fd-shares').value=s.shares; };
 }
 
 function saveDividend() {
-  const ticker = document.getElementById('fd-ticker').value;
+  const ticker   = document.getElementById('fd-ticker').value;
   const perShare = parseFloat(document.getElementById('fd-pershare').value);
-  const date = document.getElementById('fd-date').value;
-  const shares = parseFloat(document.getElementById('fd-shares').value);
-  const notes = document.getElementById('fd-notes').value.trim();
-  if (!ticker || !perShare || !shares) return alert('Fill in all required fields.');
-  dividends.push({ id: uid(), ticker, perShare, date, shares, notes });
+  const date     = document.getElementById('fd-date').value;
+  const shares   = parseFloat(document.getElementById('fd-shares').value);
+  const notes    = document.getElementById('fd-notes').value.trim();
+  if (!ticker||!perShare||!shares) { alert('Please fill in all required fields.'); return; }
+  dividends.push({id:uid(), ticker, perShare, date, shares, notes});
   save(); render(); closeModal('modal-div');
 }
 
-function deleteDiv(id) {
-  if (!confirm('Remove this dividend entry?')) return;
-  dividends = dividends.filter(d => d.id !== id);
-  save(); render();
+function editDiv(id) {
+  const d = dividends.find(x=>x.id===id); if(!d) return;
+  document.getElementById('fde-id').value      = d.id;
+  document.getElementById('fde-ticker').value  = d.ticker;
+  document.getElementById('fde-pershare').value= d.perShare;
+  document.getElementById('fde-date').value    = d.date;
+  document.getElementById('fde-shares').value  = d.shares;
+  document.getElementById('fde-notes').value   = d.notes||'';
+  document.getElementById('modal-div-edit').classList.add('open');
 }
 
+function saveEditDividend() {
+  const id  = document.getElementById('fde-id').value;
+  const idx = dividends.findIndex(x=>x.id===id); if(idx===-1) return;
+  dividends[idx] = {...dividends[idx],
+    perShare: parseFloat(document.getElementById('fde-pershare').value),
+    date:     document.getElementById('fde-date').value,
+    shares:   parseFloat(document.getElementById('fde-shares').value),
+    notes:    document.getElementById('fde-notes').value.trim()
+  };
+  save(); render(); closeModal('modal-div-edit');
+}
+
+function deleteDiv(id) {
+  const d = dividends.find(x=>x.id===id);
+  showConfirm('Delete Dividend', `Remove this ${d?.ticker} dividend of PKR ${d?.perShare}/share?`, ()=>{
+    dividends = dividends.filter(x=>x.id!==id);
+    save(); render();
+  });
+}
+
+// ===================== MANUAL PRICES =====================
 function openUpdatePrices() {
-  const fields = document.getElementById('price-fields');
-  fields.innerHTML = portfolio.map(s => `
+  document.getElementById('price-fields').innerHTML = portfolio.map(s=>`
     <div class="form-group">
       <label>${s.ticker} — Current Price (PKR)</label>
-      <input type="number" id="price-${s.id}" value="${s.currentPrice || ''}" placeholder="Enter current market price" step="0.01">
+      <input type="number" id="price-${s.id}" value="${s.currentPrice||''}" placeholder="Enter price" step="0.01">
     </div>`).join('');
   document.getElementById('modal-prices').classList.add('open');
 }
 
 function savePrices() {
-  portfolio.forEach(s => {
-    const val = document.getElementById(`price-${s.id}`)?.value;
-    s.currentPrice = val ? parseFloat(val) : null;
-  });
+  portfolio.forEach(s=>{ const v=document.getElementById(`price-${s.id}`)?.value; s.currentPrice=v?parseFloat(v):null; });
   save(); render(); closeModal('modal-prices');
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  editingId = null;
+// ===================== UTILS =====================
+function closeModal(id) { document.getElementById(id).classList.remove('open'); editingId=null; }
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('open'); }));
+
+function switchTab(name,el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+name).classList.add('active');
+  el.classList.add('active');
 }
 
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
-});
-
-// --- TABS ---
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('pane-' + name).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
-
-// --- EXPORT ---
 function exportData() {
-  const data = { portfolio, dividends, exported: new Date().toISOString() };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'psx-portfolio.json';
-  a.click();
+  const blob=new Blob([JSON.stringify({portfolio,dividends,exported:new Date().toISOString()},null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='psx-portfolio.json'; a.click();
 }
 
 render();
